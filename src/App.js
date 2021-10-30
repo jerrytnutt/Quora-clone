@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import Header from "./components/header";
+import Main from "./components/main";
 
 function App() {
+  //Context API
+  //https://www.youtube.com/watch?v=ngVvDegsAW8
+  //https://www.youtube.com/watch?v=ZBZ6BqoUDsU
+
+  //100 everything small and efficient
+  //CSS file for each component instead of one big CSS file.
+
+  //https://www.youtube.com/watch?v=vyJU9efvUtQ
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Main />
     </div>
   );
 }

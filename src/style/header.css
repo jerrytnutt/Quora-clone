@@ -1,0 +1,13 @@
+.appBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: white;
+  color: grey;
+  font-size: 30px;
+}
+
+.teamSelected {
+  background-color: green;
+  border-radius: 4px;
+}
