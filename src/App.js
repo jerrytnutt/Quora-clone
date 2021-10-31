@@ -3,6 +3,8 @@ import "./App.css";
 import Header from "./components/header";
 import Main from "./components/main";
 
+
+
 function App() {
   //Context API
   //https://www.youtube.com/watch?v=ngVvDegsAW8
@@ -16,6 +18,7 @@ function App() {
     <div className="App">
       <Header />
       <Main />
+      
     </div>
   );
 }
