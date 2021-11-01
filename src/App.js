@@ -3,6 +3,8 @@ import "./App.css";
 import Header from "./components/header";
 import Main from "./components/main";
 
+import {DataProvider} from "./context/dataContext.js"
+
 
 
 function App() {
@@ -16,8 +18,10 @@ function App() {
   //https://www.youtube.com/watch?v=vyJU9efvUtQ
   return (
     <div className="App">
+    <DataProvider>
       <Header />
       <Main />
+      </DataProvider>
       
     </div>
   );

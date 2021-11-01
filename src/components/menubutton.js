@@ -9,11 +9,18 @@ import MenuList from '@material-ui/core/MenuList';
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import IconButton from "@material-ui/core/IconButton";
 
+import {useState, useContext} from "react"
+
+import DataContext from "../context/dataContext"
+
 export default function Openmenu() {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
+  const {loggedIn} = useContext(DataContext)
+
   const handleToggle = () => {
+    console.log(loggedIn)
     setOpen((prevOpen) => !prevOpen);
   };
 

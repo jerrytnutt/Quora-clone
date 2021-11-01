@@ -10,11 +10,15 @@ import InputBase from "@material-ui/core/InputBase";
 import Openmenu from "./menubutton"
 import SearchIcon from "@material-ui/icons/Search";
 import Login from "./loginBox";
-import {useState} from "react"
+import {useState, useContext} from "react"
+
+import DataContext from "../context/dataContext"
+
 const Header = () => {
+  const {loggedIn, setloggedIn} = useContext(DataContext)
   const [hy, sethy] = useState(false)
  
-  
+  setloggedIn(true)
   return (
     <div className="header">
   {hy ? <Login/> : ''}
