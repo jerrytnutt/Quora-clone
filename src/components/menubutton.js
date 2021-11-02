@@ -1,26 +1,27 @@
-import * as React from 'react';
-import Button from '@material-ui/core/Button';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
+import * as React from "react";
+import Button from "@material-ui/core/Button";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Grow from "@material-ui/core/Grow";
+import Paper from "@material-ui/core/Paper";
+import Popper from "@material-ui/core/Popper";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import IconButton from "@material-ui/core/IconButton";
 
-import {useState, useContext} from "react"
+import { useContext } from "react";
 
-import DataContext from "../context/dataContext"
+import DataContext from "../context/dataContext";
 
 export default function Openmenu() {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
-  const {loggedIn} = useContext(DataContext)
+  const { loggedIn, setloggedIn } = useContext(DataContext);
 
   const handleToggle = () => {
-    console.log(loggedIn)
+    console.log(loggedIn);
+    // setloggedIn((loggedIn) => !loggedIn);
+
     setOpen((prevOpen) => !prevOpen);
   };
 
@@ -28,15 +29,17 @@ export default function Openmenu() {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
+    if (!loggedIn) {
+      setloggedIn(true);
+    }
     setOpen(false);
   };
 
   function handleListKeyDown(event) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       setOpen(false);
     }
   }
@@ -52,20 +55,17 @@ export default function Openmenu() {
   }, [open]);
 
   return (
-   <div>
-      
+    <div>
       <div>
         <Button
           ref={anchorRef}
           id="composition-button"
-          aria-controls={open ? 'composition-menu' : undefined}
-          aria-expanded={open ? 'true' : undefined}
+          aria-controls={open ? "composition-menu" : undefined}
+          aria-expanded={open ? "true" : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
         >
-          <IconButton aria-haspopup="true" color="inherit">
-              <AccountCircle fontSize="large" />
-            </IconButton>
+          <AccountCircle fontSize="large" />
         </Button>
         <Popper
           open={open}
@@ -80,7 +80,7 @@ export default function Openmenu() {
               {...TransitionProps}
               style={{
                 transformOrigin:
-                  placement === 'bottom-start' ? 'left top' : 'left bottom',
+                  placement === "bottom-start" ? "left top" : "left bottom",
               }}
             >
               <Paper>
@@ -92,8 +92,10 @@ export default function Openmenu() {
                     onKeyDown={handleListKeyDown}
                   >
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+
+                    <MenuItem onClick={handleClose}>
+                      {loggedIn ? "Sign Out" : "Sign In"}
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -101,6 +103,6 @@ export default function Openmenu() {
           )}
         </Popper>
       </div>
-  </div>
+    </div>
   );
 }
