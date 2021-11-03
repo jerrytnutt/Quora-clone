@@ -1,11 +1,11 @@
 import { createContext, useState } from "react";
-import auth from "../services/firebase";
-import { db } from "../services/firebase";
 
 const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
   const [loggedIn, setloggedIn] = useState(false);
+  const [currentUser, setcurrentUser] = useState(null);
+
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
 
@@ -18,6 +18,8 @@ export const DataProvider = ({ children }) => {
         setusername,
         password,
         setpassword,
+        currentUser,
+        setcurrentUser,
       }}
     >
       {children}

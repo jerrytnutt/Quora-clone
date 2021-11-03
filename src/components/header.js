@@ -14,7 +14,7 @@ import { useContext } from "react";
 import DataContext from "../context/dataContext";
 
 const Header = () => {
-  const { loggedIn, setloggedIn } = useContext(DataContext);
+  const { loggedIn } = useContext(DataContext);
 
   return (
     <div className="header">
