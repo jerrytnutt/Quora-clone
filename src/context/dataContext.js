@@ -4,7 +4,7 @@ const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
   const [loggedIn, setloggedIn] = useState(false);
-  const [currentUser, setcurrentUser] = useState(null);
+  const [currentUser, setcurrentUser] = useState(false);
 
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");

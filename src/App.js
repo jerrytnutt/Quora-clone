@@ -2,10 +2,9 @@ import "./App.css";
 
 import Header from "./components/header";
 import Main from "./components/main";
-
-import {DataProvider} from "./context/dataContext.js"
-
-
+import ProfilePage from "./components/profilepage";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { DataProvider } from "./context/dataContext.js";
 
 function App() {
   //Context API
@@ -17,13 +16,21 @@ function App() {
 
   //https://www.youtube.com/watch?v=vyJU9efvUtQ
   return (
-    <div className="App">
-    <DataProvider>
-      <Header />
-      <Main />
-      </DataProvider>
-      
-    </div>
+    <BrowserRouter basename="/">
+      <div className="App">
+        <DataProvider>
+          <Header />
+          <Routes>
+            <Route exact path="/">
+              <Main />
+            </Route>
+            <Route exact path="/profile-page">
+              <ProfilePage />
+            </Route>
+          </Routes>
+        </DataProvider>
+      </div>
+    </BrowserRouter>
   );
 }
 

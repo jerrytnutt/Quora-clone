@@ -1,6 +1,6 @@
 import React from "react";
 import "../style/login.css";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import auth from "../services/firebase";
 import { db } from "../services/firebase";
 import DataContext from "../context/dataContext";
@@ -30,67 +30,65 @@ const Login = () => {
     setpassword("");
     setusername("");
   };
-  const showPass = () => {
-    //console.log(auth);
-    return console.log(username, password);
-    const createNewAccount = (email, password, random = false) => {
-      auth
-        .signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          //setfirstLetter(email.substring(0, 1));
-        })
-        .catch((error) => {
-          // if (random === true) {
-          // let randomChars =
-          //   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-          // let result = "";
-          //  for (var i = 0; i < 10; i++) {
-          //  result += randomChars.charAt(
-          //   Math.floor(Math.random() * randomChars.length)
-          // );
-          // }
-          // email = `${result}@website.com`;
-          // password = "password12345";
-          // }
-          auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => {
-              //setfirstLetter(email.substring(0, 1));
-            })
-            .catch((error) => {
-              switch (error.code) {
-                case "auth/email-already-in-use":
-                  alert(`Email address already in use.`);
-                  break;
-                case "auth/invalid-email":
-                  alert(`Email address  is invalid.`);
-                  break;
-                case "auth/operation-not-allowed":
-                  alert(`Error during sign up.`);
-                  break;
-                case "auth/weak-password":
-                  alert(
-                    "Password is not strong enough. Add additional characters including special characters and numbers."
-                  );
-                  break;
-                default:
-                  alert(error.message);
-                  break;
-              }
-            });
-          const unSub = auth.onAuthStateChanged((user) => {
-            setcurrentUser(user);
-            setloggedIn(false);
+
+  //console.log(auth);
+
+  const createNewAccount = (email, password, random = false) => {
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        //setfirstLetter(email.substring(0, 1));
+      })
+      .catch((error) => {
+        // if (random === true) {
+        // let randomChars =
+        //   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        // let result = "";
+        //  for (var i = 0; i < 10; i++) {
+        //  result += randomChars.charAt(
+        //   Math.floor(Math.random() * randomChars.length)
+        // );
+        // }
+        // email = `${result}@website.com`;
+        // password = "password12345";
+        // }
+        auth
+          .createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            //setfirstLetter(email.substring(0, 1));
+          })
+          .catch((error) => {
+            switch (error.code) {
+              case "auth/email-already-in-use":
+                alert(`Email address already in use.`);
+                break;
+              case "auth/invalid-email":
+                alert(`Email address  is invalid.`);
+                break;
+              case "auth/operation-not-allowed":
+                alert(`Error during sign up.`);
+                break;
+              case "auth/weak-password":
+                alert(
+                  "Password is not strong enough. Add additional characters including special characters and numbers."
+                );
+                break;
+              default:
+                alert(error.message);
+                break;
+            }
           });
-          return unSub;
+        const unSub = auth.onAuthStateChanged((user) => {
+          setloggedIn(false);
+          setcurrentUser(user);
         });
-      const unSub = auth.onAuthStateChanged((user) => {
-        setloggedIn(false);
-        setcurrentUser(user);
+        return unSub;
       });
-      return unSub;
-    };
-    return createNewAccount("john@website.com", "12345678");
+    const unSub = auth.onAuthStateChanged((user) => {
+      setloggedIn(false);
+      setcurrentUser(user);
+    });
+    return unSub;
   };
 
   const signInExistingAccount = (email, password) => {
@@ -170,7 +168,9 @@ const Login = () => {
                         color="primary"
                         type="submit"
                         className="button-block"
-                        onClick={showPass}
+                        onClick={() => {
+                          createNewAccount(username, password);
+                        }}
                       >
                         Create
                       </Button>

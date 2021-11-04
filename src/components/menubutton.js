@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
+import { Link } from "react-router-dom";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 
 import { useContext } from "react";
@@ -17,15 +18,22 @@ export default function Openmenu() {
   const anchorRef = React.useRef(null);
 
   const { loggedIn, setloggedIn } = useContext(DataContext);
+  const { currentUser, setcurrentUser } = useContext(DataContext);
 
   const handleToggle = () => {
-    console.log(loggedIn);
+    console.log(currentUser === false);
     // setloggedIn((loggedIn) => !loggedIn);
 
     setOpen((prevOpen) => !prevOpen);
   };
 
+  const handleProfile = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+  };
   const handleClose = (event) => {
+    //make sign in a state
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
@@ -91,10 +99,12 @@ export default function Openmenu() {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <Link to="profile-page">
+                      <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                    </Link>
 
                     <MenuItem onClick={handleClose}>
-                      {loggedIn ? "Sign Out" : "Sign In"}
+                      {currentUser === false ? "Sign In" : "Sign Out"}
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
