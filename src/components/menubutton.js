@@ -8,7 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import { Link } from "react-router-dom";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-
+import auth from "../services/firebase";
 import { useContext } from "react";
 
 import DataContext from "../context/dataContext";
@@ -21,8 +21,7 @@ export default function Openmenu() {
   const { currentUser, setcurrentUser } = useContext(DataContext);
 
   const handleToggle = () => {
-    console.log(currentUser === false);
-    // setloggedIn((loggedIn) => !loggedIn);
+    console.log(`currentUser ${currentUser}`);
 
     setOpen((prevOpen) => !prevOpen);
   };
@@ -61,7 +60,18 @@ export default function Openmenu() {
 
     prevOpen.current = open;
   }, [open]);
-
+  const signOut = () => {
+    auth.signOut().then(
+      function () {
+        console.log("Signed Out");
+        return setcurrentUser(false);
+        //return setfirstLetter("");
+      },
+      function (error) {
+        console.error("Sign Out Error", error);
+      }
+    );
+  };
   return (
     <div>
       <div>
@@ -99,13 +109,18 @@ export default function Openmenu() {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <Link to="profile-page">
-                      <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                    </Link>
-
-                    <MenuItem onClick={handleClose}>
-                      {currentUser === false ? "Sign In" : "Sign Out"}
-                    </MenuItem>
+                    {currentUser ? (
+                      <Link to="/profile-page">
+                        <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                      </Link>
+                    ) : (
+                      <MenuItem onClick={handleClose}>Create Profile</MenuItem>
+                    )}
+                    {currentUser ? (
+                      <MenuItem onClick={signOut}>Sign Out</MenuItem>
+                    ) : (
+                      <MenuItem onClick={handleClose}>Sign In</MenuItem>
+                    )}
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

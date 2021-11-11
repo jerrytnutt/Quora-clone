@@ -11,25 +11,15 @@ import SearchIcon from "@material-ui/icons/Search";
 import Login from "./loginBox";
 import { useContext, useEffect } from "react";
 import auth from "../services/firebase";
-import { db } from "../services/firebase";
-
+import { Link } from "react-router-dom";
+///import { db } from "../services/firebase";
+//<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 import DataContext from "../context/dataContext";
 
 const Header = () => {
   const { loggedIn } = useContext(DataContext);
-  const { currentUser, setcurrentUser } = useContext(DataContext);
-  const signOut = () => {
-    auth.signOut().then(
-      function () {
-        console.log("Signed Out");
-        return setcurrentUser(false);
-        //return setfirstLetter("");
-      },
-      function (error) {
-        console.error("Sign Out Error", error);
-      }
-    );
-  };
+  const { setcurrentUser } = useContext(DataContext);
+
   useEffect(() => {
     auth.onAuthStateChanged(function (user) {
       if (user) {
@@ -48,10 +38,12 @@ const Header = () => {
       <AppBar position="static">
         <Toolbar className="appBar">
           <p variant="title">Quora</p>
-          <button onClick={signOut}>h</button>
-          <IconButton className="toggle" aria-label="Menu">
-            <HomeIcon fontSize="large" />
-          </IconButton>
+
+          <Link to="/">
+            <IconButton className="toggle" aria-label="Menu">
+              <HomeIcon fontSize="large" />
+            </IconButton>
+          </Link>
           <IconButton className="toggle" aria-label="Menu">
             <NotificationIcon fontSize="large" />
           </IconButton>

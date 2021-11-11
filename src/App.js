@@ -3,7 +3,7 @@ import "./App.css";
 import Header from "./components/header";
 import Main from "./components/main";
 import ProfilePage from "./components/profilepage";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { DataProvider } from "./context/dataContext.js";
 
 function App() {
@@ -16,21 +16,17 @@ function App() {
 
   //https://www.youtube.com/watch?v=vyJU9efvUtQ
   return (
-    <BrowserRouter basename="/">
+    <Router>
       <div className="App">
         <DataProvider>
           <Header />
           <Routes>
-            <Route exact path="/">
-              <Main />
-            </Route>
-            <Route exact path="/profile-page">
-              <ProfilePage />
-            </Route>
+            <Route exact path="/" element={<Main />}></Route>
+            <Route exact path="/profile-page" element={<ProfilePage />}></Route>
           </Routes>
         </DataProvider>
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 

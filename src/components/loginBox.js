@@ -1,8 +1,8 @@
 import React from "react";
 import "../style/login.css";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import auth from "../services/firebase";
-import { db } from "../services/firebase";
+
 import DataContext from "../context/dataContext";
 
 import {
@@ -18,8 +18,8 @@ import {
 const Login = () => {
   const { password, setpassword } = useContext(DataContext);
   const { username, setusername } = useContext(DataContext);
-  const { loggedIn, setloggedIn } = useContext(DataContext);
-  const { currentUser, setcurrentUser } = useContext(DataContext);
+  const { setloggedIn } = useContext(DataContext);
+  const { setcurrentUser } = useContext(DataContext);
 
   //const handleChange = (event) => {
   //setpassword("");
@@ -40,18 +40,8 @@ const Login = () => {
         //setfirstLetter(email.substring(0, 1));
       })
       .catch((error) => {
-        // if (random === true) {
-        // let randomChars =
-        //   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        // let result = "";
-        //  for (var i = 0; i < 10; i++) {
-        //  result += randomChars.charAt(
-        //   Math.floor(Math.random() * randomChars.length)
-        // );
-        // }
-        // email = `${result}@website.com`;
-        // password = "password12345";
-        // }
+        console.log(error);
+
         auth
           .createUserWithEmailAndPassword(email, password)
           .then(() => {
@@ -107,6 +97,33 @@ const Login = () => {
     return unSub;
   };
 
+  const createRandomAccount = () => {
+    let randEmail;
+    let randPassword;
+
+    let randomChars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (var i = 0; i < 10; i++) {
+      result += randomChars.charAt(
+        Math.floor(Math.random() * randomChars.length)
+      );
+    }
+    randEmail = `${result}@website.com`;
+    randPassword = "password12345";
+
+    auth
+      .createUserWithEmailAndPassword(randEmail, randPassword)
+      .then(() => {
+        //setfirstLetter(email.substring(0, 1));
+      })
+      .catch((error) => {});
+    const unSub = auth.onAuthStateChanged((user) => {
+      setloggedIn(false);
+      setcurrentUser(user);
+    });
+    return unSub;
+  };
   return (
     <div className="logInBox">
       <Toolbar>
@@ -192,7 +209,6 @@ const Login = () => {
                           fullWidth
                           name="username"
                           variant="outlined"
-                          value={username}
                           onChange={(event) => setusername(event.target.value)}
                           required
                           autoFocus
@@ -205,7 +221,6 @@ const Login = () => {
                           fullWidth
                           name="password"
                           variant="outlined"
-                          value={password}
                           onChange={(event) => setpassword(event.target.value)}
                           required
                         />
@@ -227,9 +242,7 @@ const Login = () => {
                   </form>
                 </Grid>
 
-                <Link href="#" variant="body2">
-                  Use Demo Account
-                </Link>
+                <button onClick={createRandomAccount}>Use Demo Account</button>
               </Grid>
             </Paper>
           </Grid>
