@@ -3,6 +3,8 @@ import "../style/main.css";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import { grey } from "@material-ui/core/colors";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 const Main = () => {
   return (
@@ -11,6 +13,7 @@ const Main = () => {
         style={{
           alignItems: "center",
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
         }}
         className="container"
@@ -27,8 +30,8 @@ const Main = () => {
           <div className="name">
             <div className="userImage"></div>
             <div className="userInfo">
-              <p>Michael Naunton</p>
-              <p>Former Managing Director on Wall St</p>
+              <p className="userName">Michael Naunton</p>
+              <p className="userTitle">Former Managing Director on Wall St</p>
             </div>
           </div>
           <div className="question">
@@ -45,7 +48,33 @@ const Main = () => {
             his uniform clean on base, there is a risk he won’t keep that quad
             .50 clean either.
           </div>
-          <div className="replies">547K viewsView 7,706 upvotesView shares</div>
+          <div className="replies">
+            <div className="arrows">
+              <div className="arrowBox">
+                <ArrowUpwardIcon />
+              </div>
+              <div className="arrowBox">
+                <ArrowDownwardIcon />
+              </div>
+            </div>
+          </div>
+        </Box>
+        <Box
+          sx={{
+            width: 600,
+            height: 300,
+
+            backgroundColor: grey,
+          }}
+          className="box"
+        >
+          <div className="addComment">
+            <div className="userImage"></div>
+            <div className="userInfo">
+              <p className="userName">Michael Naunton</p>
+              <p className="userTitle">Former Managing Director on Wall St</p>
+            </div>
+          </div>
         </Box>
       </Container>
     </div>

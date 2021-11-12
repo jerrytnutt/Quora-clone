@@ -5,22 +5,31 @@
 
 .box {
   width: 800px;
-  background-color: rgb(241, 241, 241);
-  padding: 15px;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
 }
 .name {
   width: 100%;
   height: 40px;
-  border: 1px solid black;
+
   display: flex;
+  font-size: 15px;
   flex-direction: row;
   margin-bottom: 10px;
+}
+.userName {
+  color: black;
+  font-weight: bold;
+}
+.userTitle {
+  color: rgb(163, 163, 163);
 }
 .userImage {
   background-color: white;
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  border: 1px solid black;
 }
 .userInfo {
   display: flex;
@@ -34,16 +43,46 @@
   margin: 0;
 }
 .question {
-  border: 1px solid black;
+  color: black;
+  font-weight: bold;
   width: 100%;
   height: 40px;
   text-align: left;
   padding: 10px;
 }
 .answer {
-  border: 1px solid black;
   width: 100%;
 
   text-align: left;
   padding: 10px;
+}
+.replies {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  position: relative;
+  top: 30px;
+  border: 1px solid black;
+}
+.arrows {
+  display: flex;
+  flex-direction: row;
+}
+.arrowBox {
+  background-color: gray;
+  width: 20px;
+  height: 20px;
+}
+.addComment {
+  width: 100%;
+  height: 50px;
+  background-color: green;
+}
+.addComment {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  font-size: 15px;
+  flex-direction: row;
+  margin-bottom: 10px;
 }
