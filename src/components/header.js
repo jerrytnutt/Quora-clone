@@ -12,7 +12,6 @@ import Login from "./loginBox";
 import { useContext, useEffect } from "react";
 import auth from "../services/firebase";
 import { Link } from "react-router-dom";
-///import { db } from "../services/firebase";
 //<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 import DataContext from "../context/dataContext";
 
@@ -23,8 +22,6 @@ const Header = () => {
   useEffect(() => {
     auth.onAuthStateChanged(function (user) {
       if (user) {
-        //setfirstLetter(user.email.substring(0, 1));
-
         setcurrentUser(user);
       } else {
         console.log("No current User");

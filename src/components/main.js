@@ -1,10 +1,10 @@
 import "../style/main.css";
 
 import { useEffect, useContext } from "react";
-
 import { db } from "../services/firebase";
 import DataContext from "../context/dataContext";
 import Questions from "./questions";
+
 const Main = () => {
   const { questionsArray, setquestionsArray } = useContext(DataContext);
 
@@ -15,7 +15,8 @@ const Main = () => {
         const currentArray = db.collection("questions");
         const aa = await currentArray.get();
         aa.forEach((doc) => {
-          let t = [doc.data()];
+          // console.log(doc.id);
+          let t = [doc.id, doc.data()];
           tempArray.push(t);
         });
         return setquestionsArray(tempArray);

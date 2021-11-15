@@ -1,5 +1,5 @@
-import React from "react";
 import "../style/login.css";
+import React from "react";
 import { useContext } from "react";
 import auth from "../services/firebase";
 
@@ -12,28 +12,22 @@ import {
   Paper,
   Typography,
   Toolbar,
-  Link,
 } from "@material-ui/core";
 
 const Login = () => {
   const { password, setpassword } = useContext(DataContext);
   const { username, setusername } = useContext(DataContext);
+
   const { setloggedIn } = useContext(DataContext);
   const { setcurrentUser } = useContext(DataContext);
 
-  //const handleChange = (event) => {
-  //setpassword("");
-  //setusername("");
-  //};
   const handleSubmit = (event) => {
     event.preventDefault();
     setpassword("");
     setusername("");
   };
 
-  //console.log(auth);
-
-  const createNewAccount = (email, password, random = false) => {
+  const createNewAccount = (email, password) => {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
@@ -97,9 +91,9 @@ const Login = () => {
     return unSub;
   };
 
-  const createRandomAccount = () => {
-    let randEmail;
-    let randPassword;
+  const createDemoAccount = () => {
+    let demoEmail;
+    let demoPassword;
 
     let randomChars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -109,11 +103,11 @@ const Login = () => {
         Math.floor(Math.random() * randomChars.length)
       );
     }
-    randEmail = `${result}@website.com`;
-    randPassword = "password12345";
+    demoEmail = `${result}@website.com`;
+    demoPassword = "password12345";
 
     auth
-      .createUserWithEmailAndPassword(randEmail, randPassword)
+      .createUserWithEmailAndPassword(demoEmail, demoPassword)
       .then(() => {
         //setfirstLetter(email.substring(0, 1));
       })
@@ -242,7 +236,7 @@ const Login = () => {
                   </form>
                 </Grid>
 
-                <button onClick={createRandomAccount}>Use Demo Account</button>
+                <button onClick={createDemoAccount}>Use Demo Account</button>
               </Grid>
             </Paper>
           </Grid>

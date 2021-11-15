@@ -1,18 +1,37 @@
-import "../style/main.css";
-
+import "../style/questions.css";
+import { db } from "../services/firebase";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import { grey } from "@material-ui/core/colors";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import CommentIcon from "@material-ui/icons/Comment";
 import InputBase from "@material-ui/core/InputBase";
 import { useState } from "react";
 
-const Questions = () => {
+const Questions = ({ item }) => {
   const [baseSize, setbaseSize] = useState("commentBase");
+  const [commentSize, setcommentSize] = useState("endBox");
+
+  const questionInformation = item[1];
+  const changeBox = () => {
+    console.log(6);
+    return setcommentSize("box");
+  };
   const say = () => {
     console.log(baseSize);
     return setbaseSize("commentBaseBigger");
+  };
+
+  const addUpvotes = async () => {
+    const currentArray = await db.collection("questions").doc(item[0]);
+    //updates here
+    currentArray.update({ upvotes: 5 });
+    //const doc = await currentArray.get();
+    //doc
+    //console.log(doc.data());
+    //console.log(questionsArray);
+    //console.log(item[0]);
   };
 
   return (
@@ -38,43 +57,33 @@ const Questions = () => {
           <div className="name">
             <div className="userImage"></div>
             <div className="userInfo">
-              <p className="userName">Michael Naunton</p>
-              <p className="userTitle">Former Managing Director on Wall St</p>
+              <p className="userName">{questionInformation.name}</p>
+              <p className="userTitle">{questionInformation.description}</p>
             </div>
           </div>
-          <div className="question">
-            Why is the military so obsessed with tidiness? In combat, what
-            difference does it make if the soldiers clothes are not perfectly
-            ironed?
-          </div>
-          <div className="answer">
-            I knew a guy on Wall St, he was hired for $700,000/year. One day, he
-            stole an apple from the cafeteria: just put it in his pocket and
-            walked out without paying. He was fired the next day. The 50 cent
-            apple didn’t matter at all. What mattered was that he broke the
-            rules and destroyed the trust we had in him. If a soldier can’t keep
-            his uniform clean on base, there is a risk he won’t keep that quad
-            .50 clean either.
-          </div>
+          <div className="question">{questionInformation.question}</div>
+          <div className="answer">{questionInformation.answer}</div>
           <div className="replies">
             <div className="arrows">
               <div className="arrowBox">
-                <ArrowUpwardIcon />
+                <ArrowUpwardIcon onClick={addUpvotes} />
+                {questionInformation.upvotes}
               </div>
               <div className="arrowBox">
                 <ArrowDownwardIcon />
+                {questionInformation.downvotes}
               </div>
             </div>
+            <CommentIcon onClick={changeBox} />
           </div>
         </Box>
         <Box
           sx={{
             width: 600,
-            height: 300,
 
             backgroundColor: grey,
           }}
-          className="box"
+          className={commentSize}
         >
           <div className="addComment">
             <div className="userImage"></div>
@@ -87,6 +96,13 @@ const Questions = () => {
 
             <button className="commentButton">Add Comment</button>
           </div>
+
+          {questionInformation.comments.map((item, index) => (
+            <div className="remake" key={index}>
+              {item[0]}
+              {item[1]}
+            </div>
+          ))}
         </Box>
       </Container>
     </div>
