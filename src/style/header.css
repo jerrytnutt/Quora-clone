@@ -5,7 +5,8 @@
   background-color: white;
   color: rgb(187, 0, 0);
   font-size: 30px;
-  height: 15px;
+  height: 5px;
+  font-weight: bolder;
 }
 
 .teamSelected {

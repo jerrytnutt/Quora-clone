@@ -1,23 +1,23 @@
 .container {
-  border: 1px solid black;
-  width: 80%;
+  width: 50%;
+  margin-top: 20px;
 }
 
 .box {
   width: 50%;
   background-color: rgb(255, 255, 255);
   padding: 10px;
+
   visibility: visible;
-  transition: all 1.5s ease;
+  transition: all 2.5s ease;
 }
 .endBox {
-  width: 800px;
   background-color: rgb(255, 255, 255);
   padding: 10px;
   height: 0px;
   visibility: hidden;
-  background-color: green;
-  transition: all 1.5s ease;
+
+  transition: all 2.5s ease;
 }
 .name {
   width: 100%;
@@ -40,7 +40,6 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  border: 1px solid black;
 }
 .userInfo {
   display: flex;
@@ -70,7 +69,7 @@
 .replies {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   position: relative;
   top: 30px;
   border: 1px solid black;

@@ -1,4 +1,5 @@
 import "../style/questions.css";
+import Comments from "./comments";
 import { db } from "../services/firebase";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
@@ -7,13 +8,18 @@ import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import CommentIcon from "@material-ui/icons/Comment";
 import InputBase from "@material-ui/core/InputBase";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import DataContext from "../context/dataContext";
 
 const Questions = ({ item }) => {
   const [baseSize, setbaseSize] = useState("commentBase");
   const [commentSize, setcommentSize] = useState("endBox");
+  const [Uvotes, setUvotes] = useState(item[1].upvotes);
+
+  const { currentUser } = useContext(DataContext);
 
   const questionInformation = item[1];
+  console.log(Uvotes);
   const changeBox = () => {
     console.log(6);
     return setcommentSize("box");
@@ -24,14 +30,26 @@ const Questions = ({ item }) => {
   };
 
   const addUpvotes = async () => {
-    const currentArray = await db.collection("questions").doc(item[0]);
-    //updates here
-    currentArray.update({ upvotes: 5 });
-    //const doc = await currentArray.get();
-    //doc
-    //console.log(doc.data());
-    //console.log(questionsArray);
-    //console.log(item[0]);
+    if (!currentUser) {
+      return alert("Please create an account to vote");
+    }
+    const userId = currentUser.uid;
+    const currentQuestion = await db.collection("questions").doc(item[0]);
+    const doc = await currentQuestion.get();
+
+    let voteList = doc.data().voteList;
+    for (var i = 0; i < voteList.length; i++) {
+      if (voteList[i] === userId) {
+        return null;
+      }
+    }
+    let newList = voteList;
+    newList.push(userId);
+    currentQuestion.update({ voteList: newList });
+    let upVotes = doc.data().upvotes;
+    let newVotes = (upVotes += 1);
+    currentQuestion.update({ upvotes: newVotes });
+    setUvotes(newVotes);
   };
 
   return (
@@ -47,7 +65,6 @@ const Questions = ({ item }) => {
       >
         <Box
           sx={{
-            width: 600,
             height: 300,
 
             backgroundColor: grey,
@@ -67,7 +84,7 @@ const Questions = ({ item }) => {
             <div className="arrows">
               <div className="arrowBox">
                 <ArrowUpwardIcon onClick={addUpvotes} />
-                {questionInformation.upvotes}
+                {Uvotes}
               </div>
               <div className="arrowBox">
                 <ArrowDownwardIcon />
@@ -79,8 +96,6 @@ const Questions = ({ item }) => {
         </Box>
         <Box
           sx={{
-            width: 600,
-
             backgroundColor: grey,
           }}
           className={commentSize}
@@ -98,10 +113,7 @@ const Questions = ({ item }) => {
           </div>
 
           {questionInformation.comments.map((item, index) => (
-            <div className="remake" key={index}>
-              {item[0]}
-              {item[1]}
-            </div>
+            <Comments key={index} item={item} />
           ))}
         </Box>
       </Container>
