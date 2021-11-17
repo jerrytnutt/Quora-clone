@@ -236,7 +236,15 @@ const Login = () => {
                   </form>
                 </Grid>
 
-                <button onClick={createDemoAccount}>Use Demo Account</button>
+                <Button
+                  variant="contained"
+                  color="orange"
+                  type="submit"
+                  className="button-block"
+                  onClick={createDemoAccount}
+                >
+                  Use Demo Account
+                </Button>
               </Grid>
             </Paper>
           </Grid>

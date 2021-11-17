@@ -14,12 +14,14 @@ import DataContext from "../context/dataContext";
 const Questions = ({ item }) => {
   const [baseSize, setbaseSize] = useState("commentBase");
   const [commentSize, setcommentSize] = useState("endBox");
+  const [userComment, setuserComment] = useState("");
   const [Uvotes, setUvotes] = useState(item[1].upvotes);
+  const [downvotes, setdownvotes] = useState(item[1].downvotes);
 
   const { currentUser } = useContext(DataContext);
 
   const questionInformation = item[1];
-  console.log(Uvotes);
+
   const changeBox = () => {
     console.log(6);
     return setcommentSize("box");
@@ -29,7 +31,15 @@ const Questions = ({ item }) => {
     return setbaseSize("commentBaseBigger");
   };
 
-  const addUpvotes = async () => {
+  const addAComment = () => {
+    const newCommentObject = { name: "john", comment: "comment" };
+    const newArray = item[1].comments;
+    newArray.push(newCommentObject);
+    const currentQuestion = db.collection("questions").doc(item[0]);
+    currentQuestion.update({ comments: newArray });
+  };
+
+  const addUpvotes = async (voteType) => {
     if (!currentUser) {
       return alert("Please create an account to vote");
     }
@@ -46,10 +56,16 @@ const Questions = ({ item }) => {
     let newList = voteList;
     newList.push(userId);
     currentQuestion.update({ voteList: newList });
-    let upVotes = doc.data().upvotes;
-    let newVotes = (upVotes += 1);
-    currentQuestion.update({ upvotes: newVotes });
-    setUvotes(newVotes);
+    if (voteType === "up") {
+      let upVotes = doc.data().upvotes;
+      let newVotes = (upVotes += 1);
+      currentQuestion.update({ upvotes: newVotes });
+      return setUvotes(newVotes);
+    }
+    let downvotes = doc.data().downvotes;
+    let newVotes = (downvotes += 1);
+    currentQuestion.update({ downvotes: newVotes });
+    setdownvotes(newVotes);
   };
 
   return (
@@ -65,8 +81,6 @@ const Questions = ({ item }) => {
       >
         <Box
           sx={{
-            height: 300,
-
             backgroundColor: grey,
           }}
           className="box"
@@ -83,12 +97,16 @@ const Questions = ({ item }) => {
           <div className="replies">
             <div className="arrows">
               <div className="arrowBox">
-                <ArrowUpwardIcon onClick={addUpvotes} />
+                <ArrowUpwardIcon
+                  onClick={() => {
+                    addUpvotes("up");
+                  }}
+                />
                 {Uvotes}
               </div>
               <div className="arrowBox">
-                <ArrowDownwardIcon />
-                {questionInformation.downvotes}
+                <ArrowDownwardIcon onClick={addUpvotes} />
+                {downvotes}
               </div>
             </div>
             <CommentIcon onClick={changeBox} />
@@ -106,10 +124,13 @@ const Questions = ({ item }) => {
               placeholder="Add a Comment..."
               className={baseSize}
               fontSize="large"
+              onChange={(event) => setuserComment(event.target.value)}
               onClick={say}
             />
 
-            <button className="commentButton">Add Comment</button>
+            <button onClick={addAComment} className="commentButton">
+              Add Comment
+            </button>
           </div>
 
           {questionInformation.comments.map((item, index) => (
