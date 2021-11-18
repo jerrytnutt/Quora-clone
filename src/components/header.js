@@ -9,6 +9,7 @@ import InputBase from "@material-ui/core/InputBase";
 import Openmenu from "./menubutton";
 import SearchIcon from "@material-ui/icons/Search";
 import Login from "./loginBox";
+import QuestionBox from "./questionbox";
 import { useContext, useEffect } from "react";
 import auth from "../services/firebase";
 import { Link } from "react-router-dom";
@@ -17,8 +18,13 @@ import DataContext from "../context/dataContext";
 
 const Header = () => {
   const { loggedIn } = useContext(DataContext);
-  const { setcurrentUser } = useContext(DataContext);
-
+  const { enterQuestion, setenterQuestion } = useContext(DataContext);
+  const { currentUser, setcurrentUser } = useContext(DataContext);
+  const askQuestion = () => {
+    if (currentUser && !loggedIn) {
+      return setenterQuestion(true);
+    }
+  };
   useEffect(() => {
     auth.onAuthStateChanged(function (user) {
       if (user) {
@@ -32,6 +38,8 @@ const Header = () => {
   return (
     <div className="header">
       {loggedIn ? <Login /> : ""}
+      {enterQuestion ? <QuestionBox /> : ""}
+
       <AppBar position="static">
         <Toolbar className="appBar">
           <p variant="title">Quora</p>
@@ -53,6 +61,7 @@ const Header = () => {
 
           <div>
             <Openmenu />
+            <button onClick={askQuestion}></button>
           </div>
         </Toolbar>
       </AppBar>

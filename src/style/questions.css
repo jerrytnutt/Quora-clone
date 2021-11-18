@@ -1,6 +1,7 @@
 .container {
   width: 50%;
   margin-top: 10px;
+  min-width: 800px;
 }
 
 .box {
@@ -37,10 +38,16 @@
 }
 .userImage {
   background-color: white;
-  width: 50px;
-  border: 1px solid black;
-  height: 50px;
+  text-align: center;
+  width: 40px;
+  font-size: 20px;
+  border: 3px solid black;
+  height: 40px;
   border-radius: 50%;
+}
+.userImage p {
+  position: relative;
+  bottom: 15px;
 }
 .userInfo {
   display: flex;
@@ -64,6 +71,7 @@
 .answer {
   width: 100%;
 
+  margin: 10px;
   text-align: left;
   padding: 10px;
 }

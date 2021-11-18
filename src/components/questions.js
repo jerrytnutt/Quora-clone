@@ -19,9 +19,10 @@ const Questions = ({ item }) => {
   const [downvotes, setdownvotes] = useState(item[1].downvotes);
 
   const { currentUser } = useContext(DataContext);
+  const { firstLetter } = useContext(DataContext);
 
   const questionInformation = item[1];
-
+  console.log(firstLetter);
   const changeBox = () => {
     console.log(6);
     return setcommentSize("box");
@@ -32,7 +33,8 @@ const Questions = ({ item }) => {
   };
 
   const addAComment = () => {
-    const newCommentObject = { name: "john", comment: "comment" };
+    console.log(currentUser.email);
+    const newCommentObject = { name: currentUser.email, comment: userComment };
     const newArray = item[1].comments;
     newArray.push(newCommentObject);
     const currentQuestion = db.collection("questions").doc(item[0]);
@@ -86,13 +88,16 @@ const Questions = ({ item }) => {
           className="box"
         >
           <div className="name">
-            <div className="userImage"></div>
+            <div className="userImage">
+              <p>{questionInformation.name.substring(0, 1)}</p>
+            </div>
             <div className="userInfo">
               <p className="userName">{questionInformation.name}</p>
               <p className="userTitle">{questionInformation.description}</p>
             </div>
           </div>
           <div className="question">{questionInformation.question}</div>
+          <div></div>
           <div className="answer">{questionInformation.answer}</div>
           <div className="replies">
             <div className="arrows">

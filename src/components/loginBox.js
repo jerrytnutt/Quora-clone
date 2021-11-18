@@ -17,6 +17,7 @@ import {
 const Login = () => {
   const { password, setpassword } = useContext(DataContext);
   const { username, setusername } = useContext(DataContext);
+  const { setfirstLetter } = useContext(DataContext);
 
   const { setloggedIn } = useContext(DataContext);
   const { setcurrentUser } = useContext(DataContext);
@@ -31,7 +32,7 @@ const Login = () => {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        //setfirstLetter(email.substring(0, 1));
+        setfirstLetter(email.substring(0, 1));
       })
       .catch((error) => {
         console.log(error);
@@ -39,7 +40,7 @@ const Login = () => {
         auth
           .createUserWithEmailAndPassword(email, password)
           .then(() => {
-            //setfirstLetter(email.substring(0, 1));
+            setfirstLetter(email.substring(0, 1));
           })
           .catch((error) => {
             switch (error.code) {
@@ -79,7 +80,7 @@ const Login = () => {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        console.log("in");
+        setfirstLetter(email.substring(0, 1));
       })
       .catch((error) => {
         alert(error.message);
@@ -109,7 +110,7 @@ const Login = () => {
     auth
       .createUserWithEmailAndPassword(demoEmail, demoPassword)
       .then(() => {
-        //setfirstLetter(email.substring(0, 1));
+        setfirstLetter(demoEmail.substring(0, 1));
       })
       .catch((error) => {});
     const unSub = auth.onAuthStateChanged((user) => {
