@@ -7,6 +7,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import NotificationIcon from "@material-ui/icons/Notifications";
 import InputBase from "@material-ui/core/InputBase";
 import Openmenu from "./menubutton";
+import { Button } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Login from "./loginBox";
 import QuestionBox from "./questionbox";
@@ -18,11 +19,11 @@ import DataContext from "../context/dataContext";
 
 const Header = () => {
   const { loggedIn } = useContext(DataContext);
-  const { enterQuestion, setenterQuestion } = useContext(DataContext);
+  const { askedQuestion, setaskedQuestion } = useContext(DataContext);
   const { currentUser, setcurrentUser } = useContext(DataContext);
   const askQuestion = () => {
     if (currentUser && !loggedIn) {
-      return setenterQuestion(true);
+      return setaskedQuestion(true);
     }
   };
   useEffect(() => {
@@ -38,7 +39,7 @@ const Header = () => {
   return (
     <div className="header">
       {loggedIn ? <Login /> : ""}
-      {enterQuestion ? <QuestionBox /> : ""}
+      {askedQuestion ? <QuestionBox /> : ""}
 
       <AppBar position="static">
         <Toolbar className="appBar">
@@ -60,8 +61,18 @@ const Header = () => {
           />
 
           <div>
-            <Openmenu />
-            <button onClick={askQuestion}></button>
+            <div className="buttonHolder">
+              <Openmenu />
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                className="button-block"
+                onClick={askQuestion}
+              >
+                Ask a Question
+              </Button>
+            </div>
           </div>
         </Toolbar>
       </AppBar>

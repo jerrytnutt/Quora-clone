@@ -9,20 +9,26 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import CommentIcon from "@material-ui/icons/Comment";
 import InputBase from "@material-ui/core/InputBase";
 import { useState, useContext } from "react";
+
+import TextField from "@material-ui/core/TextField";
+
 import DataContext from "../context/dataContext";
 
 const Questions = ({ item }) => {
+  //console.log(item[1].comments);
   const [baseSize, setbaseSize] = useState("commentBase");
   const [commentSize, setcommentSize] = useState("endBox");
   const [userComment, setuserComment] = useState("");
   const [Uvotes, setUvotes] = useState(item[1].upvotes);
   const [downvotes, setdownvotes] = useState(item[1].downvotes);
+  const [questionArray] = useState(item[1].comments);
+  const [createdAnswer, setcreatedAnswer] = useState("");
 
   const { currentUser } = useContext(DataContext);
-  const { firstLetter } = useContext(DataContext);
+  //const { firstLetter } = useContext(DataContext);
 
   const questionInformation = item[1];
-  console.log(firstLetter);
+  //console.log(questionArray);
   const changeBox = () => {
     console.log(6);
     return setcommentSize("box");
@@ -69,6 +75,13 @@ const Questions = ({ item }) => {
     currentQuestion.update({ downvotes: newVotes });
     setdownvotes(newVotes);
   };
+  const answerQuestion = async () => {
+    console.log(item[0]);
+
+    const currentQuestion = db.collection("questions").doc(item[0]);
+    const doc = await currentQuestion.get();
+    console.log(createdAnswer);
+  };
 
   return (
     <div className="main">
@@ -89,7 +102,7 @@ const Questions = ({ item }) => {
         >
           <div className="name">
             <div className="userImage">
-              <p>{questionInformation.name.substring(0, 1)}</p>
+              <p>{questionInformation.name.substring(0, 1).toUpperCase()}</p>
             </div>
             <div className="userInfo">
               <p className="userName">{questionInformation.name}</p>
@@ -97,8 +110,26 @@ const Questions = ({ item }) => {
             </div>
           </div>
           <div className="question">{questionInformation.question}</div>
-          <div></div>
-          <div className="answer">{questionInformation.answer}</div>
+          <div className="bar"></div>
+          <div className="answer">
+            {questionInformation.answer ? (
+              questionInformation.answer
+            ) : (
+              <div>
+                <TextField
+                  name={createdAnswer}
+                  onChange={(event) => setcreatedAnswer(event.target.value)}
+                  id="standard-multiline-static"
+                  label="Multiline"
+                  multiline
+                  rows={4}
+                  defaultValue="Default Value"
+                  variant="standard"
+                />
+                <button onClick={answerQuestion}>Answer Question</button>
+              </div>
+            )}
+          </div>
           <div className="replies">
             <div className="arrows">
               <div className="arrowBox">
@@ -132,15 +163,17 @@ const Questions = ({ item }) => {
               onChange={(event) => setuserComment(event.target.value)}
               onClick={say}
             />
-
             <button onClick={addAComment} className="commentButton">
               Add Comment
             </button>
           </div>
-
-          {questionInformation.comments.map((item, index) => (
-            <Comments key={index} item={item} />
-          ))}
+          {questionArray ? (
+            questionArray.map((item, index) => (
+              <Comments key={index} item={item} />
+            ))
+          ) : (
+            <p>Users is empty</p>
+          )}
         </Box>
       </Container>
     </div>

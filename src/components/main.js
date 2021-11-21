@@ -12,23 +12,13 @@ const Main = () => {
     async function fetchData() {
       try {
         let tempArray = [];
-        const currentArray = db.collection("questions");
-        const aa = await currentArray.get();
-        aa.forEach((doc) => {
-          // console.log(doc.id);
-          let t = [doc.id, doc.data()];
-          tempArray.push(t);
+        let currentArray = db.collection("questions");
+        currentArray = await currentArray.get();
+        currentArray.forEach((doc) => {
+          let infoArray = [doc.id, doc.data()];
+          tempArray.push(infoArray);
         });
         return setquestionsArray(tempArray);
-        //console.log(currentArray);
-
-        //const currentArray = await db
-        //.collection("questions")
-        //.doc("xp0EmNC5DRDDj1O6wv3r");
-        //const doc = await currentArray.get();
-
-        //console.log(doc.data());
-        //console.log(questionsArray);
       } catch (e) {
         console.error(e);
       }

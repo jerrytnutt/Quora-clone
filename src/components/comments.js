@@ -1,7 +1,6 @@
 import { Divider, Avatar, Grid, Paper } from "@material-ui/core";
 
 const Comments = ({ item }) => {
-  console.log(item);
   const questionContent = item;
   return (
     <div style={{ padding: 14 }} className="App">

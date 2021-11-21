@@ -1,11 +1,10 @@
 import "../style/login.css";
 import React from "react";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { db } from "../services/firebase";
-import auth from "../services/firebase";
 
 import DataContext from "../context/dataContext";
-
+//<form onSubmit={handleSubmit}>
 import {
   Button,
   TextField,
@@ -16,25 +15,32 @@ import {
 } from "@material-ui/core";
 
 const QuestionBox = () => {
-  const { enterQuestion, setenterQuestion } = useContext(DataContext);
+  const { askedQuestion, setaskedQuestion } = useContext(DataContext);
+  const { occupation } = useContext(DataContext);
 
-  const { currentUser, setcurrentUser } = useContext(DataContext);
+  const { currentUser } = useContext(DataContext);
 
-  console.log(setenterQuestion);
-  const handleSubmit = () => {
-    //let con = currentUser;
-    //console.log(con);
-  };
+  console.log(askedQuestion);
+
   const submitQuestion = async () => {
+    const name = currentUser.email.substr(0, currentUser.email.indexOf("@"));
     let con = currentUser.uid;
     const currentQuestion = db.collection("questions").doc(con);
     const doc = await currentQuestion.get();
-    console.log(doc);
+    console.log(6);
     return db.collection("questions").doc(con).set({
-      name: "name",
-      photoArray: [],
+      name: name,
+      description: "",
+      question: askedQuestion,
+
+      comments: [],
+      voteList: [],
+      downvotes: 0,
+      upvotes: 0,
     });
   };
+  //<form onSubmit={handleSubmit}>
+
   //let con = currentUser.uid;
   //let con = currentUser;
   //const currentArray = db.collection("questions").doc(con);
@@ -67,7 +73,6 @@ const QuestionBox = () => {
           </Grid>
         </Grid>
       </Toolbar>
-
       <Grid container spacing={0} justifyContent="center" direction="row">
         <Grid item>
           <Grid
@@ -92,9 +97,9 @@ const QuestionBox = () => {
                   <Grid item>
                     <TextField
                       fullWidth
-                      name="enterQuestion"
+                      name="askedQuestion"
                       variant="outlined"
-                      onChange={(event) => setenterQuestion(event.target.value)}
+                      onChange={(event) => setaskedQuestion(event.target.value)}
                       required
                       autoFocus
                     />

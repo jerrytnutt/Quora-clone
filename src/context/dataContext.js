@@ -4,10 +4,11 @@ const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
   const [loggedIn, setloggedIn] = useState(false);
-  const [enterQuestion, setenterQuestion] = useState("");
+  const [askedQuestion, setaskedQuestion] = useState("");
   const [currentUser, setcurrentUser] = useState(false);
   const [questionsArray, setquestionsArray] = useState([]);
   const [firstLetter, setfirstLetter] = useState("");
+  const [occupation, setoccupation] = useState("");
 
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
@@ -27,8 +28,10 @@ export const DataProvider = ({ children }) => {
         setquestionsArray,
         firstLetter,
         setfirstLetter,
-        enterQuestion,
-        setenterQuestion,
+        askedQuestion,
+        setaskedQuestion,
+        occupation,
+        setoccupation,
       }}
     >
       {children}

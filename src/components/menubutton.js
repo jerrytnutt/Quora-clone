@@ -22,7 +22,6 @@ export default function Openmenu() {
 
   const handleToggle = () => {
     console.log(`currentUser ${currentUser}`);
-
     setOpen((prevOpen) => !prevOpen);
   };
 
@@ -51,7 +50,6 @@ export default function Openmenu() {
     }
   }
 
-  // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
     if (prevOpen.current === true && open === false) {
@@ -65,7 +63,6 @@ export default function Openmenu() {
       function () {
         console.log("Signed Out");
         return setcurrentUser(false);
-        //return setfirstLetter("");
       },
       function (error) {
         console.error("Sign Out Error", error);
@@ -110,7 +107,10 @@ export default function Openmenu() {
                     onKeyDown={handleListKeyDown}
                   >
                     {currentUser ? (
-                      <Link to="/profile-page">
+                      <Link
+                        to="/profile-page"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
                         <MenuItem onClick={handleProfile}>Profile</MenuItem>
                       </Link>
                     ) : (

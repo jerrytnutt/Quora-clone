@@ -22,7 +22,13 @@
   z-index: 5;
   font-size: 35px;
 
-  top: 20px;
+  top: 0px;
   left: 0;
   right: 0;
+}
+.button-block {
+  margin: 50px;
+}
+.bar {
+  margin: 10px;
 }

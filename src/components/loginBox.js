@@ -17,8 +17,8 @@ import {
 const Login = () => {
   const { password, setpassword } = useContext(DataContext);
   const { username, setusername } = useContext(DataContext);
+  const { occupation, setoccupation } = useContext(DataContext);
   const { setfirstLetter } = useContext(DataContext);
-
   const { setloggedIn } = useContext(DataContext);
   const { setcurrentUser } = useContext(DataContext);
 
@@ -26,12 +26,13 @@ const Login = () => {
     event.preventDefault();
     setpassword("");
     setusername("");
+    setoccupation("");
   };
 
   const createNewAccount = (email, password) => {
     auth
       .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
+      .then(() => {
         setfirstLetter(email.substring(0, 1));
       })
       .catch((error) => {
@@ -66,12 +67,14 @@ const Login = () => {
         const unSub = auth.onAuthStateChanged((user) => {
           setloggedIn(false);
           setcurrentUser(user);
+          setoccupation(occupation);
         });
         return unSub;
       });
     const unSub = auth.onAuthStateChanged((user) => {
       setloggedIn(false);
       setcurrentUser(user);
+      setoccupation(occupation);
     });
     return unSub;
   };
@@ -175,6 +178,18 @@ const Login = () => {
                       />
                     </Grid>
                     <Grid item>
+                      <TextField
+                        type="text"
+                        placeholder="Occupation/Education"
+                        fullWidth
+                        name="username"
+                        variant="outlined"
+                        onChange={(event) => setoccupation(event.target.value)}
+                        required
+                        autoFocus
+                      />
+                    </Grid>
+                    <Grid item>
                       <Button
                         variant="contained"
                         color="primary"
@@ -191,6 +206,7 @@ const Login = () => {
                 </form>
               </Grid>
               <Grid item>
+                <div className="bar"></div>
                 <Typography component="h1" variant="h5">
                   Sign in
                 </Typography>
@@ -230,7 +246,7 @@ const Login = () => {
                             signInExistingAccount(username, password);
                           }}
                         >
-                          Submit
+                          Sign In
                         </Button>
                       </Grid>
                     </Grid>
