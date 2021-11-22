@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Quora-clone/static/css/main.a376f6bc.chunk.css",
+    "main.js": "/Quora-clone/static/js/main.bd38a76b.chunk.js",
+    "main.js.map": "/Quora-clone/static/js/main.bd38a76b.chunk.js.map",
+    "runtime-main.js": "/Quora-clone/static/js/runtime-main.b0c04a1d.js",
+    "runtime-main.js.map": "/Quora-clone/static/js/runtime-main.b0c04a1d.js.map",
+    "static/js/2.56afcba8.chunk.js": "/Quora-clone/static/js/2.56afcba8.chunk.js",
+    "static/js/2.56afcba8.chunk.js.map": "/Quora-clone/static/js/2.56afcba8.chunk.js.map",
+    "static/js/3.48ed15f5.chunk.js": "/Quora-clone/static/js/3.48ed15f5.chunk.js",
+    "static/js/3.48ed15f5.chunk.js.map": "/Quora-clone/static/js/3.48ed15f5.chunk.js.map",
+    "index.html": "/Quora-clone/index.html",
+    "static/css/main.a376f6bc.chunk.css.map": "/Quora-clone/static/css/main.a376f6bc.chunk.css.map",
+    "static/js/2.56afcba8.chunk.js.LICENSE.txt": "/Quora-clone/static/js/2.56afcba8.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b0c04a1d.js",
+    "static/js/2.56afcba8.chunk.js",
+    "static/css/main.a376f6bc.chunk.css",
+    "static/js/main.bd38a76b.chunk.js"
+  ]
+}
