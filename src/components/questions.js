@@ -80,7 +80,9 @@ const Questions = ({ item }) => {
 
     const currentQuestion = db.collection("questions").doc(item[0]);
     const doc = await currentQuestion.get();
-    console.log(createdAnswer);
+    return db.collection("questions").doc(item[0]).update({
+      answer: createdAnswer,
+    });
   };
 
   return (
@@ -120,13 +122,14 @@ const Questions = ({ item }) => {
                   name={createdAnswer}
                   onChange={(event) => setcreatedAnswer(event.target.value)}
                   id="standard-multiline-static"
-                  label="Multiline"
                   multiline
                   rows={4}
-                  defaultValue="Default Value"
+                  defaultValue="Answer..."
                   variant="standard"
                 />
-                <button onClick={answerQuestion}>Answer Question</button>
+                <button className="addAnswer" onClick={answerQuestion}>
+                  Answer Question
+                </button>
               </div>
             )}
           </div>

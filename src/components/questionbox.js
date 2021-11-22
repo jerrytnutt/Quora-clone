@@ -26,11 +26,19 @@ const QuestionBox = () => {
     const name = currentUser.email.substr(0, currentUser.email.indexOf("@"));
     let con = currentUser.uid;
     const currentQuestion = db.collection("questions").doc(con);
-    const doc = await currentQuestion.get();
-    console.log(6);
+    let doc = await currentQuestion.get();
+    console.log(doc);
+    let newNum = 0;
+    if (doc) {
+      let randInt = Math.floor(Math.random() * 100);
+
+      con = con + randInt;
+    }
+
+    setaskedQuestion(false);
     return db.collection("questions").doc(con).set({
       name: name,
-      description: "",
+      description: occupation,
       question: askedQuestion,
 
       comments: [],
@@ -39,30 +47,6 @@ const QuestionBox = () => {
       upvotes: 0,
     });
   };
-  //<form onSubmit={handleSubmit}>
-
-  //let con = currentUser.uid;
-  //let con = currentUser;
-  //const currentArray = db.collection("questions").doc(con);
-  //const doc = await currentArray.get();
-
-  //if (!doc.exists) {
-  // const savedPhotoArray = [];
-  // savedPhotoArray.push({ 0: item.urls.small, 1: item.urls.regular });
-
-  // return db.collection("users").doc(con).set({
-  //   name: "name",
-  //  photoArray: savedPhotoArray,
-  //});
-  //} else {
-  // let newArray = doc.data().photoArray;
-  // newArray.push({ 0: item.urls.small, 1: item.urls.regular });
-  // return db.collection("users").doc(con).update({
-  //  name: "name",
-  //  photoArray: newArray,
-  // });
-  /// }
-  // };
 
   return (
     <div className="logInBox">

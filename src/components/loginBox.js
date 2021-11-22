@@ -118,6 +118,7 @@ const Login = () => {
       .catch((error) => {});
     const unSub = auth.onAuthStateChanged((user) => {
       setloggedIn(false);
+      setoccupation("Demo Account");
       setcurrentUser(user);
     });
     return unSub;
