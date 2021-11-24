@@ -2,6 +2,7 @@ import "../style/login.css";
 import React from "react";
 import { useContext } from "react";
 import { db } from "../services/firebase";
+import { Link } from "react-router-dom";
 
 import DataContext from "../context/dataContext";
 //<form onSubmit={handleSubmit}>
@@ -17,6 +18,7 @@ import {
 const QuestionBox = () => {
   const { askedQuestion, setaskedQuestion } = useContext(DataContext);
   const { occupation } = useContext(DataContext);
+  const { questionsArray, setquestionsArray } = useContext(DataContext);
 
   const { currentUser } = useContext(DataContext);
 
@@ -36,9 +38,25 @@ const QuestionBox = () => {
     }
 
     setaskedQuestion(false);
+    const tempObj = [
+      currentUser.uid,
+      {
+        name: "",
+        description: "",
+        question: askedQuestion,
+        comments: [],
+        voteList: [],
+        downvotes: 0,
+        upvotes: 0,
+      },
+    ];
+    const tempAry = questionsArray;
+    tempAry.push(tempObj);
+    setquestionsArray(tempAry);
+    console.log(questionsArray);
     return db.collection("questions").doc(con).set({
-      name: name,
-      description: occupation,
+      name: "",
+      description: "",
       question: askedQuestion,
 
       comments: [],
@@ -90,15 +108,18 @@ const QuestionBox = () => {
                   </Grid>
                   <Grid item></Grid>
                   <Grid item>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                      className="button-block"
-                      onClick={submitQuestion}
+                    <Link
+                      to="/profile-page"
+                      style={{ color: "inherit", textDecoration: "inherit" }}
                     >
-                      Submit
-                    </Button>
+                      <Button
+                        type="submit"
+                        className="buttonSubmit"
+                        onClick={submitQuestion}
+                      >
+                        Submit
+                      </Button>
+                    </Link>
                   </Grid>
                 </Grid>
               </Grid>

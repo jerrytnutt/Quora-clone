@@ -15,6 +15,8 @@ function App() {
   //CSS file for each component instead of one big CSS file.
 
   //https://www.youtube.com/watch?v=vyJU9efvUtQ
+
+  // basename={process.env.PUBLIC_URL}
   return (
     <Router>
       <div className="App">

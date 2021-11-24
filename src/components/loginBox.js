@@ -2,6 +2,7 @@ import "../style/login.css";
 import React from "react";
 import { useContext } from "react";
 import auth from "../services/firebase";
+import { db } from "../services/firebase";
 
 import DataContext from "../context/dataContext";
 
@@ -20,13 +21,12 @@ const Login = () => {
   const { occupation, setoccupation } = useContext(DataContext);
   const { setfirstLetter } = useContext(DataContext);
   const { setloggedIn } = useContext(DataContext);
-  const { setcurrentUser } = useContext(DataContext);
+  const { currentUser, setcurrentUser } = useContext(DataContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setpassword("");
     setusername("");
-    setoccupation("");
   };
 
   const createNewAccount = (email, password) => {
@@ -67,14 +67,14 @@ const Login = () => {
         const unSub = auth.onAuthStateChanged((user) => {
           setloggedIn(false);
           setcurrentUser(user);
-          setoccupation(occupation);
+          createOccupation(email, occupation);
         });
         return unSub;
       });
     const unSub = auth.onAuthStateChanged((user) => {
       setloggedIn(false);
       setcurrentUser(user);
-      setoccupation(occupation);
+      createOccupation(email, occupation);
     });
     return unSub;
   };
@@ -109,6 +109,7 @@ const Login = () => {
     }
     demoEmail = `${result}@website.com`;
     demoPassword = "password12345";
+    demoEmail = demoEmail.toLowerCase();
 
     auth
       .createUserWithEmailAndPassword(demoEmail, demoPassword)
@@ -118,10 +119,16 @@ const Login = () => {
       .catch((error) => {});
     const unSub = auth.onAuthStateChanged((user) => {
       setloggedIn(false);
-      setoccupation("Demo Account");
       setcurrentUser(user);
+      createOccupation(demoEmail, "Demo Account");
     });
     return unSub;
+  };
+
+  const createOccupation = (email, job) => {
+    return db.collection("occupations").doc(email).set({
+      job: job,
+    });
   };
   return (
     <div className="logInBox">
@@ -183,7 +190,7 @@ const Login = () => {
                         type="text"
                         placeholder="Occupation/Education"
                         fullWidth
-                        name="username"
+                        name="occupation"
                         variant="outlined"
                         onChange={(event) => setoccupation(event.target.value)}
                         required

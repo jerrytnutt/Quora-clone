@@ -24,7 +24,7 @@ const Main = () => {
       }
     }
     fetchData();
-  }, [questionsArray, setquestionsArray]);
+  }, [setquestionsArray]);
   return (
     <div className="main">
       {questionsArray.map((item, index) => (

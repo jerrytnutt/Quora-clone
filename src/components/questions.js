@@ -9,6 +9,7 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import CommentIcon from "@material-ui/icons/Comment";
 import InputBase from "@material-ui/core/InputBase";
 import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 
 import TextField from "@material-ui/core/TextField";
 
@@ -23,6 +24,7 @@ const Questions = ({ item }) => {
   const [downvotes, setdownvotes] = useState(item[1].downvotes);
   const [questionArray] = useState(item[1].comments);
   const [createdAnswer, setcreatedAnswer] = useState("");
+  const { occupation, setoccupation } = useContext(DataContext);
 
   const { currentUser } = useContext(DataContext);
   //const { firstLetter } = useContext(DataContext);
@@ -30,8 +32,11 @@ const Questions = ({ item }) => {
   const questionInformation = item[1];
   //console.log(questionArray);
   const changeBox = () => {
-    console.log(6);
-    return setcommentSize("box");
+    console.log(occupation);
+    if (commentSize === "endBox") {
+      return setcommentSize("box");
+    }
+    return setcommentSize("endBox");
   };
   const say = () => {
     console.log(baseSize);
@@ -39,6 +44,7 @@ const Questions = ({ item }) => {
   };
 
   const addAComment = () => {
+    setoccupation("hhy");
     console.log(currentUser.email);
     const newCommentObject = { name: currentUser.email, comment: userComment };
     const newArray = item[1].comments;
@@ -77,10 +83,27 @@ const Questions = ({ item }) => {
   };
   const answerQuestion = async () => {
     console.log(item[0]);
+    //const currentQuestion = db.collection("questions").doc(item[0]);
+    //const doc = await currentQuestion.get();
+    const cityRef = db.collection("occupations").doc(currentUser.email);
+    const docum = await cityRef.get();
+    let dd;
+    if (!docum.exists) {
+      dd = docum.job;
+      console.log("No such document!");
+    } else {
+      dd = docum.data().job;
+      console.log(dd);
+      console.log("Document data:", docum.data());
+    }
 
     const currentQuestion = db.collection("questions").doc(item[0]);
     const doc = await currentQuestion.get();
+
+    const name = currentUser.email.substr(0, currentUser.email.indexOf("@"));
     return db.collection("questions").doc(item[0]).update({
+      name: name,
+      description: dd,
       answer: createdAnswer,
     });
   };
@@ -102,15 +125,21 @@ const Questions = ({ item }) => {
           }}
           className="box"
         >
-          <div className="name">
-            <div className="userImage">
-              <p>{questionInformation.name.substring(0, 1).toUpperCase()}</p>
+          {!questionInformation.name ? (
+            ""
+          ) : (
+            <div className="name">
+              <div className="userImage">
+                <p>{questionInformation.name.substring(0, 1).toUpperCase()}</p>
+              </div>
+
+              <div className="userInfo">
+                <p className="userName">{questionInformation.name}</p>
+                <p className="userTitle">{questionInformation.description}</p>
+              </div>
             </div>
-            <div className="userInfo">
-              <p className="userName">{questionInformation.name}</p>
-              <p className="userTitle">{questionInformation.description}</p>
-            </div>
-          </div>
+          )}
+
           <div className="question">{questionInformation.question}</div>
           <div className="bar"></div>
           <div className="answer">
@@ -166,9 +195,14 @@ const Questions = ({ item }) => {
               onChange={(event) => setuserComment(event.target.value)}
               onClick={say}
             />
-            <button onClick={addAComment} className="commentButton">
-              Add Comment
-            </button>
+            <Link
+              to="/profile-page"
+              style={{ color: "inherit", textDecoration: "inherit" }}
+            >
+              <button onClick={addAComment} className="commentButton">
+                Add Comment
+              </button>
+            </Link>
           </div>
           {questionArray ? (
             questionArray.map((item, index) => (
