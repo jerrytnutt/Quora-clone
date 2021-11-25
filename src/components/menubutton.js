@@ -6,7 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
-import { Link } from "react-router-dom";
+
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import auth from "../services/firebase";
 import { useContext } from "react";
@@ -25,13 +25,7 @@ export default function Openmenu() {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleProfile = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-  };
   const handleClose = (event) => {
-    //make sign in a state
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
@@ -40,15 +34,6 @@ export default function Openmenu() {
     }
     setOpen(false);
   };
-
-  function handleListKeyDown(event) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === "Escape") {
-      setOpen(false);
-    }
-  }
 
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
@@ -104,18 +89,7 @@ export default function Openmenu() {
                     autoFocusItem={open}
                     id="composition-menu"
                     aria-labelledby="composition-button"
-                    onKeyDown={handleListKeyDown}
                   >
-                    {currentUser ? (
-                      <Link
-                        to="/profile-page"
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                      </Link>
-                    ) : (
-                      <MenuItem onClick={handleClose}>Create Profile</MenuItem>
-                    )}
                     {currentUser ? (
                       <MenuItem onClick={signOut}>Sign Out</MenuItem>
                     ) : (

@@ -1,9 +1,13 @@
-import "../style/main.css";
+import "../style/profile.css";
 import DataContext from "../context/dataContext";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 
 const ProfilePage = () => {
-  const { occupation, setoccupation } = useContext(DataContext);
-  return <div>{occupation}</div>;
+  const { messageResponce } = useContext(DataContext);
+  return (
+    <div className="top">
+      <div className="message">{messageResponce}</div>
+    </div>
+  );
 };
 export default ProfilePage;

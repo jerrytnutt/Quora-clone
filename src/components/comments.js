@@ -15,9 +15,6 @@ const Comments = ({ item }) => {
               {questionContent.name}
             </h4>
             <p style={{ textAlign: "left" }}>{questionContent.comment} </p>
-            <p style={{ textAlign: "left", color: "gray" }}>
-              posted 1 minute ago
-            </p>
           </Grid>
         </Grid>
         <Divider variant="fullWidth" style={{ margin: "30px 0" }} />

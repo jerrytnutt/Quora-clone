@@ -21,7 +21,7 @@ const Login = () => {
   const { occupation, setoccupation } = useContext(DataContext);
   const { setfirstLetter } = useContext(DataContext);
   const { setloggedIn } = useContext(DataContext);
-  const { currentUser, setcurrentUser } = useContext(DataContext);
+  const { setcurrentUser } = useContext(DataContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,6 +30,7 @@ const Login = () => {
   };
 
   const createNewAccount = (email, password) => {
+    console.log(email);
     auth
       .signInWithEmailAndPassword(email, password)
       .then(() => {
@@ -39,8 +40,9 @@ const Login = () => {
         console.log(error);
 
         auth
-          .createUserWithEmailAndPassword(email, password)
+          .createUserWithEmailAndPassword(email.toLowerCase(), password)
           .then(() => {
+            console.log(email);
             setfirstLetter(email.substring(0, 1));
           })
           .catch((error) => {
@@ -82,7 +84,7 @@ const Login = () => {
   const signInExistingAccount = (email, password) => {
     auth
       .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
+      .then(() => {
         setfirstLetter(email.substring(0, 1));
       })
       .catch((error) => {
@@ -169,7 +171,9 @@ const Login = () => {
                         fullWidth
                         name="username"
                         variant="outlined"
-                        onChange={(event) => setusername(event.target.value)}
+                        onChange={(event) =>
+                          setusername(event.target.value.toLowerCase())
+                        }
                         required
                         autoFocus
                       />

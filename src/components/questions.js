@@ -16,7 +16,6 @@ import TextField from "@material-ui/core/TextField";
 import DataContext from "../context/dataContext";
 
 const Questions = ({ item }) => {
-  //console.log(item[1].comments);
   const [baseSize, setbaseSize] = useState("commentBase");
   const [commentSize, setcommentSize] = useState("endBox");
   const [userComment, setuserComment] = useState("");
@@ -24,13 +23,13 @@ const Questions = ({ item }) => {
   const [downvotes, setdownvotes] = useState(item[1].downvotes);
   const [questionArray] = useState(item[1].comments);
   const [createdAnswer, setcreatedAnswer] = useState("");
-  const { occupation, setoccupation } = useContext(DataContext);
+  const { occupation } = useContext(DataContext);
+  const { setmessageResponce } = useContext(DataContext);
 
   const { currentUser } = useContext(DataContext);
-  //const { firstLetter } = useContext(DataContext);
 
   const questionInformation = item[1];
-  //console.log(questionArray);
+
   const changeBox = () => {
     console.log(occupation);
     if (commentSize === "endBox") {
@@ -38,14 +37,12 @@ const Questions = ({ item }) => {
     }
     return setcommentSize("endBox");
   };
-  const say = () => {
-    console.log(baseSize);
+  const changeCommentSection = () => {
     return setbaseSize("commentBaseBigger");
   };
 
   const addAComment = () => {
-    setoccupation("hhy");
-    console.log(currentUser.email);
+    setmessageResponce("Comment Added");
     const newCommentObject = { name: currentUser.email, comment: userComment };
     const newArray = item[1].comments;
     newArray.push(newCommentObject);
@@ -82,28 +79,31 @@ const Questions = ({ item }) => {
     setdownvotes(newVotes);
   };
   const answerQuestion = async () => {
-    console.log(item[0]);
-    //const currentQuestion = db.collection("questions").doc(item[0]);
-    //const doc = await currentQuestion.get();
-    const cityRef = db.collection("occupations").doc(currentUser.email);
-    const docum = await cityRef.get();
-    let dd;
-    if (!docum.exists) {
-      dd = docum.job;
-      console.log("No such document!");
-    } else {
-      dd = docum.data().job;
-      console.log(dd);
-      console.log("Document data:", docum.data());
+    setmessageResponce("Question Answerd");
+
+    if (createdAnswer === "") {
+      console.log("no");
+      return null;
     }
 
-    const currentQuestion = db.collection("questions").doc(item[0]);
-    const doc = await currentQuestion.get();
+    const currEmail = db.collection("occupations").doc(currentUser.email);
+    const document = await currEmail.get();
+    let docData;
+    console.log(document);
+    if (!document.exists) {
+      docData = document.job;
+      console.log("No such document!");
+    } else {
+      docData = document.data().job;
+
+      console.log("Document data:", document.data());
+    }
 
     const name = currentUser.email.substr(0, currentUser.email.indexOf("@"));
+    console.log(name, docData, createdAnswer);
     return db.collection("questions").doc(item[0]).update({
       name: name,
-      description: dd,
+      description: docData,
       answer: createdAnswer,
     });
   };
@@ -156,9 +156,14 @@ const Questions = ({ item }) => {
                   defaultValue="Answer..."
                   variant="standard"
                 />
-                <button className="addAnswer" onClick={answerQuestion}>
-                  Answer Question
-                </button>
+                <Link
+                  to="/profile-page"
+                  style={{ color: "inherit", textDecoration: "inherit" }}
+                >
+                  <button className="addAnswer" onClick={answerQuestion}>
+                    Answer Question
+                  </button>
+                </Link>
               </div>
             )}
           </div>
@@ -177,7 +182,7 @@ const Questions = ({ item }) => {
                 {downvotes}
               </div>
             </div>
-            <CommentIcon onClick={changeBox} />
+            <CommentIcon className="commentIcon" onClick={changeBox} />
           </div>
         </Box>
         <Box
@@ -187,13 +192,12 @@ const Questions = ({ item }) => {
           className={commentSize}
         >
           <div className="addComment">
-            <div className="userImage"></div>
             <InputBase
               placeholder="Add a Comment..."
               className={baseSize}
               fontSize="large"
               onChange={(event) => setuserComment(event.target.value)}
-              onClick={say}
+              onClick={changeCommentSection}
             />
             <Link
               to="/profile-page"

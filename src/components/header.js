@@ -14,17 +14,19 @@ import QuestionBox from "./questionbox";
 import { useContext, useEffect } from "react";
 import auth from "../services/firebase";
 import { Link } from "react-router-dom";
-//<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
 import DataContext from "../context/dataContext";
 
 const Header = () => {
   const { loggedIn } = useContext(DataContext);
   const { askedQuestion, setaskedQuestion } = useContext(DataContext);
   const { currentUser, setcurrentUser } = useContext(DataContext);
-  const askQuestion = () => {
+
+  const openQuestionBox = () => {
     if (currentUser && !loggedIn) {
       return setaskedQuestion(true);
     }
+    return alert("Please create an account to ask questions.");
   };
   useEffect(() => {
     auth.onAuthStateChanged(function (user) {
@@ -68,7 +70,7 @@ const Header = () => {
                 color="primary"
                 type="submit"
                 className="button-block"
-                onClick={askQuestion}
+                onClick={openQuestionBox}
               >
                 Ask a Question
               </Button>

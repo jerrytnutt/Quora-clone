@@ -5,7 +5,7 @@ import { db } from "../services/firebase";
 import { Link } from "react-router-dom";
 
 import DataContext from "../context/dataContext";
-//<form onSubmit={handleSubmit}>
+
 import {
   Button,
   TextField,
@@ -17,20 +17,15 @@ import {
 
 const QuestionBox = () => {
   const { askedQuestion, setaskedQuestion } = useContext(DataContext);
-  const { occupation } = useContext(DataContext);
-  const { questionsArray, setquestionsArray } = useContext(DataContext);
+  const { setmessageResponce } = useContext(DataContext);
 
   const { currentUser } = useContext(DataContext);
 
-  console.log(askedQuestion);
-
   const submitQuestion = async () => {
-    const name = currentUser.email.substr(0, currentUser.email.indexOf("@"));
     let con = currentUser.uid;
     const currentQuestion = db.collection("questions").doc(con);
     let doc = await currentQuestion.get();
-    console.log(doc);
-    let newNum = 0;
+
     if (doc) {
       let randInt = Math.floor(Math.random() * 100);
 
@@ -38,22 +33,7 @@ const QuestionBox = () => {
     }
 
     setaskedQuestion(false);
-    const tempObj = [
-      currentUser.uid,
-      {
-        name: "",
-        description: "",
-        question: askedQuestion,
-        comments: [],
-        voteList: [],
-        downvotes: 0,
-        upvotes: 0,
-      },
-    ];
-    const tempAry = questionsArray;
-    tempAry.push(tempObj);
-    setquestionsArray(tempAry);
-    console.log(questionsArray);
+    setmessageResponce("Question Submitted");
     return db.collection("questions").doc(con).set({
       name: "",
       description: "",

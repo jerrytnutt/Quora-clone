@@ -1,0 +1,17 @@
+.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+.message {
+  width: 20%;
+
+  height: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+  border-radius: 5px;
+  background-color: rgb(247, 245, 242);
+  color: black;
+  padding: 10px;
+}
