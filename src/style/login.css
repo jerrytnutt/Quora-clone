@@ -35,6 +35,7 @@
 }
 .buttonSubmit {
   color: black;
+  background-color: red;
 }
 .questionBox {
   width: 500px;

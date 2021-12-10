@@ -7,15 +7,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { DataProvider } from "./context/dataContext.js";
 
 function App() {
-  //Context API
-  //https://www.youtube.com/watch?v=ngVvDegsAW8
-  //https://www.youtube.com/watch?v=ZBZ6BqoUDsU
-
-  //100 everything small and efficient
-  //CSS file for each component instead of one big CSS file.
-
-  //https://www.youtube.com/watch?v=vyJU9efvUtQ
-
   // basename={process.env.PUBLIC_URL}
   return (
     <Router basename={process.env.PUBLIC_URL}>

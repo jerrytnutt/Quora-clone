@@ -18,7 +18,6 @@ import {
 const QuestionBox = () => {
   const { askedQuestion, setaskedQuestion } = useContext(DataContext);
   const { setmessageResponce } = useContext(DataContext);
-
   const { currentUser } = useContext(DataContext);
 
   const submitQuestion = async () => {
