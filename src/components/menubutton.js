@@ -10,6 +10,7 @@ import MenuList from "@material-ui/core/MenuList";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import auth from "../services/firebase";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import DataContext from "../context/dataContext";
 
@@ -54,6 +55,7 @@ export default function Openmenu() {
       }
     );
   };
+
   return (
     <div>
       <div>
@@ -94,6 +96,17 @@ export default function Openmenu() {
                       <MenuItem onClick={signOut}>Sign Out</MenuItem>
                     ) : (
                       <MenuItem onClick={handleClose}>Sign In</MenuItem>
+                    )}
+
+                    {currentUser ? (
+                      <Link
+                        to="/profile-page"
+                        style={{ color: "inherit", textDecoration: "inherit" }}
+                      >
+                        <MenuItem>Profile</MenuItem>
+                      </Link>
+                    ) : (
+                      ""
                     )}
                   </MenuList>
                 </ClickAwayListener>

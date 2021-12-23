@@ -37,6 +37,7 @@ const Questions = ({ item }) => {
     }
     return setcommentSize("endBox");
   };
+
   const changeCommentSection = () => {
     return setbaseSize("commentBaseBigger");
   };
@@ -100,6 +101,7 @@ const Questions = ({ item }) => {
     }
 
     const name = currentUser.email.substr(0, currentUser.email.indexOf("@"));
+
     console.log(name, docData, createdAnswer);
     return db.collection("questions").doc(item[0]).update({
       name: name,

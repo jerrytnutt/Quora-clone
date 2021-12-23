@@ -11,6 +11,8 @@ export const DataProvider = ({ children }) => {
   const [occupation, setoccupation] = useState("");
   const [messageResponce, setmessageResponce] = useState("");
 
+  const [userAskedQuestions, setuserAskedQuestions] = useState([]);
+
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
 
@@ -35,6 +37,8 @@ export const DataProvider = ({ children }) => {
         setoccupation,
         messageResponce,
         setmessageResponce,
+        userAskedQuestions,
+        setuserAskedQuestions,
       }}
     >
       {children}

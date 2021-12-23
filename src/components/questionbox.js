@@ -19,6 +19,7 @@ const QuestionBox = () => {
   const { askedQuestion, setaskedQuestion } = useContext(DataContext);
   const { setmessageResponce } = useContext(DataContext);
   const { currentUser } = useContext(DataContext);
+  const { setuserAskedQuestions } = useContext(DataContext);
 
   const submitQuestion = async () => {
     let con = currentUser.uid;
@@ -33,6 +34,7 @@ const QuestionBox = () => {
 
     setaskedQuestion(false);
     setmessageResponce("Question Submitted");
+    getProfilePage();
     return db.collection("questions").doc(con).set({
       name: "",
       description: "",
@@ -42,6 +44,23 @@ const QuestionBox = () => {
       voteList: [],
       downvotes: 0,
       upvotes: 0,
+    });
+  };
+
+  const getProfilePage = async () => {
+    let con = currentUser.uid;
+    let userId = con.slice(0, 15);
+    console.log(userId);
+
+    let snapshot = await db.collection("questions").get();
+    snapshot = snapshot.docs;
+    let newArr = [];
+    snapshot.map((doc) => {
+      const answer = doc.data().answer;
+      if (userId === doc.id.slice(0, 15) && answer === undefined) {
+        newArr.push(doc.data().question);
+      }
+      return setuserAskedQuestions(newArr);
     });
   };
 

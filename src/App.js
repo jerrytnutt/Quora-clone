@@ -9,7 +9,7 @@ import { DataProvider } from "./context/dataContext.js";
 function App() {
   // basename={process.env.PUBLIC_URL}
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router basename="/">
       <div className="App">
         <DataProvider>
           <Header />
